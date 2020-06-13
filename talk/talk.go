@@ -2,13 +2,14 @@ package talk
 
 import (
 	service "../talkservice"
-  "context"
+	"context"
 )
+
 type Client struct {
-        talk     *service.TalkServiceClient
-        poll     *service.TalkServiceClient
-        revision int64
-        ctx      context.Context
+	talk     *service.TalkServiceClient
+	poll     *service.TalkServiceClient
+	revision int64
+	ctx      context.Context
 }
 
 //  継承 どうすればええんやｗ
@@ -24,12 +25,12 @@ func (self Client) SendMessage(to, text string) (service.Message, error) {
 }
 
 func (self Client) DeleteOtherFromChat(to string, targetUsers []string) (service.DeleteOtherFromChatResponse, error) {
-  req := service.NewDeleteOtherFromChatRequest()
+	req := service.NewDeleteOtherFromChatRequest()
 	req.ReqSeq = 0
 	req.ChatMid = to
 	req.TargetUserMids = targetUsers
-  result,err := self.talk.DeleteOtherFromChat(self.ctx, req)
-  return *result, err
+	result, err := self.talk.DeleteOtherFromChat(self.ctx, req)
+	return *result, err
 }
 
 func (self Client) Noop() {

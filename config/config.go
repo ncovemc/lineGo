@@ -36,4 +36,3 @@ func GetUserAgent(appName string) string {
 		return "Line/" + AppVer["MAC"]
 	}
 }
-

@@ -2,20 +2,18 @@ package login
 
 import (
 	"fmt"
-
 	talk "../talkservice"
-
 	con "../config"
 	"github.com/apache/thrift/lib/go/thrift"
 )
 
 func createSession(authToken, service, appName string) *talk.TalkServiceClient {
 	var trans thrift.TTransport
-  var err error
-  if service == "talk" {
-    trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.TALK_PATH)
+	var err error
+	if service == "talk" {
+		trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.TALK_PATH)
 	} else if service == "poll" {
-    trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.POLL_PATH)
+		trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.POLL_PATH)
 	}
 	if err != nil {
 		fmt.Println(err)
