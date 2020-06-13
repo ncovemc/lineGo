@@ -1,31 +1,37 @@
 package talk
 
 import (
-	service "/talkservice"
-
-	"./line"
+	service "../talkservice"
+  "context"
 )
+type Client struct {
+        talk     *service.TalkServiceClient
+        poll     *service.TalkServiceClient
+        revision int64
+        ctx      context.Context
+}
 
 //  継承 どうすればええんやｗ
 // 勉強し直す
 
-var self = line.Clinet
+//var self = line.Client
 
-func SendMessage(to, text string) (Message, error) {
+func (self Client) SendMessage(to, text string) (service.Message, error) {
 	msg := service.NewMessage()
 	msg.To, msg.Text = to, text
 	message, err := self.talk.SendMessage(self.ctx, 0, msg)
-	return
+	return *message, err
 }
 
-func DeleteOtherFromChat(to string, targetUsers []string) DeleteOtherFromChatResponse {
-	req = service.NewDeleteOtherFromChatRequest()
+func (self Client) DeleteOtherFromChat(to string, targetUsers []string) (service.DeleteOtherFromChatResponse, error) {
+  req := service.NewDeleteOtherFromChatRequest()
 	req.ReqSeq = 0
 	req.ChatMid = to
 	req.TargetUserMids = targetUsers
-	return self.talk.DeleteOtherFromChat(self.ctx, 0, msg)
+  result,err := self.talk.DeleteOtherFromChat(self.ctx, req)
+  return *result, err
 }
 
-func Noop() {
+func (self Client) Noop() {
 	self.talk.Noop(self.ctx)
 }

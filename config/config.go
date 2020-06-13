@@ -21,14 +21,19 @@ func GetLineApp(appName string) string {
 		return "IOS\t" + AppVer["IOS"] + "\tiOS\t" + SystemVer["IOS"]
 	case "MAC":
 		return "DESKTOPMAC\t" + AppVer["MAC"] + "\tOS X\t" + SystemVer["MAC"]
+	default:
+		return "DESKTOPMAC"
 	}
 }
 
-func GetUserAgen(appName string) string {
+func GetUserAgent(appName string) string {
 	switch appName {
 	case "IOS":
 		return "Line/" + AppVer["IOS"] + " iPhone8,1 " + SystemVer["IOS"]
 	case "MAC":
 		return "Line/" + AppVer["MAC"]
+	default:
+		return "Line/" + AppVer["MAC"]
 	}
 }
+
