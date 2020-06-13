@@ -13,7 +13,7 @@ type Client struct {
 	ctx      context.Context
 }
 
-func Line(token, appName string) Client {
+func NewClient(token, appName string) Client {
 	ctx := context.Background()
 	talk := login.Talk(token, appName)
 	poll := login.Poll(token, appName)
