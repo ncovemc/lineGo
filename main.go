@@ -4,12 +4,16 @@ import (
 	."./line"
 	"fmt"
 )
-
+var client = NewClient("", "MAC")
 func main() {
-	client := NewClient("", "MAC")
-	profile, err := client.GetProfile()
+	fmt.Println(client.Revision)
+	operation()
+}
+
+func operation() {
+	ops, err := client.FetchOperations()
+	fmt.Println(ops)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(profile)
 }

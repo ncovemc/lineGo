@@ -1,7 +1,7 @@
 package login
 
 import (
-	"fmt"
+	"log"
 	talk "../talkservice"
 	con "../config"
 	"github.com/apache/thrift/lib/go/thrift"
@@ -16,7 +16,7 @@ func createSession(authToken, service, appName string) *talk.TalkServiceClient {
 		trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.POLL_PATH)
 	}
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	var connect *thrift.THttpClient
 	connect = trans.(*thrift.THttpClient)
