@@ -21,8 +21,7 @@ func createSession(authToken, appName string) *talk.TalkServiceClient {
 	connect.SetHeader("User-Agent", con.GetUserAgent(appName))
 	connect.SetHeader("X-Line-Application", con.GetLineApp(appName))
 	connect.SetHeader("x-lal", "ja_jp")
-	setProtocol := thrift.NewTCompactProtocolFactory()
-	protocol := setProtocol.GetProtocol(connect)
+	protocol := thrift.NewTCompactProtocolFactory().GetProtocol(connect)
 	return talk.NewTalkServiceClientProtocol(connect, protocol, protocol)
 }
 

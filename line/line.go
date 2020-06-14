@@ -2,9 +2,10 @@ package line
 
 import (
 	"context"
-	talk "../talkservice"
 	"log"
-	//"time"
+
+	talk "../talkservice"
+
 	"../login"
 )
 
@@ -31,9 +32,9 @@ func NewClient(token, appName string) Client {
 			log.Fatal(err)
 		}
 		for _, op := range ops {
-                        if op.Revision != -1 {
-			        rev = op.Revision
-			        break
+			if op.Revision != -1 {
+				rev = op.Revision
+				break
 			}
 		}
 		if rev != -1 {

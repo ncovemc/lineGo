@@ -14,9 +14,20 @@ func main() {
 }
 
 func operation() {
-	ops, err := client.FetchOperations()
-	fmt.Println(ops)
-	if err != nil {
-		fmt.Println(err)
+	profile, _ := client.GetProfile()
+	fmt.Println(profile.DisplayName + ": login success")
+	for {
+		ops, err := client.FetchOperations()
+		for _, op := range ops {
+			if op.Type != 0 {
+				if op.Revision > client.Revision {
+					client.Revision = op.Revision
+				}
+				fmt.Println(op)
+			}
+		}
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 }

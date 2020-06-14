@@ -21,7 +21,9 @@ func (self Client) DeleteOtherFromChat(to string, targetUsers []string) (service
 }
 
 func (self Client) GetProfile() (*service.Profile, error) {
-	return self.talk.GetProfile(self.ctx, 0)
+	prof, err := self.talk.GetProfile(self.ctx, 0)
+	self.Profile = prof
+	return prof, err
 }
 
 func (self Client) Noop() {
