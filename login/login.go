@@ -2,19 +2,16 @@ package login
 
 import (
 	"log"
-	talk "../talkservice"
+
 	con "../config"
+	talk "../talkservice"
 	"github.com/apache/thrift/lib/go/thrift"
 )
 
-func createSession(authToken, service, appName string) *talk.TalkServiceClient {
+func createSession(authToken, appName string) *talk.TalkServiceClient {
 	var trans thrift.TTransport
 	var err error
-	if service == "talk" {
-		trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.TALK_PATH)
-	} else if service == "poll" {
-		trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.POLL_PATH)
-	}
+	trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.TALK_PATH)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,10 +26,27 @@ func createSession(authToken, service, appName string) *talk.TalkServiceClient {
 	return talk.NewTalkServiceClientProtocol(connect, protocol, protocol)
 }
 
+func createSession_pool(authToken, appName string) *talk.TalkServiceClient {
+	var trans thrift.TTransport
+	var err error
+	trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.POLL_PATH)
+	if err != nil {
+		log.Fatal(err)
+	}
+	var connect *thrift.THttpClient
+	connect = trans.(*thrift.THttpClient)
+	connect.SetHeader("X-Line-Access", authToken)
+	connect.SetHeader("User-Agent", con.GetUserAgent(appName))
+	connect.SetHeader("X-Line-Application", con.GetLineApp(appName))
+	connect.SetHeader("x-lal", "ja_jp")
+	protocol, err := thrift.NewTTransportFactory().GetTransport(connect)
+	return talk.NewTalkServiceClientFactory(protocol, thrift.NewTCompactProtocolFactory())
+}
+
 func Talk(token, appName string) *talk.TalkServiceClient {
-	return createSession(token, "talk", appName)
+	return createSession(token, appName)
 }
 
 func Poll(token, appName string) *talk.TalkServiceClient {
-	return createSession(token, "poll", appName)
+	return createSession_pool(token, appName)
 }

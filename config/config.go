@@ -4,6 +4,7 @@ var LINE_HOST string = "https://ga2.line.naver.jp"
 var TALK_PATH string = "/S4"
 var POLL_PATH string = "/P4"
 var SYSTEM_NAME string = "SakuraGo"
+var AUTH_QUERY_PATH string = "/api/v4/TalkService.do"
 
 var SystemVer map[string]string = map[string]string{
 	"IOS": "13.4.1",
