@@ -25,7 +25,7 @@ func createSession(authToken, appName string) *talk.TalkServiceClient {
 	return talk.NewTalkServiceClientProtocol(connect, protocol, protocol)
 }
 
-func createSession_pool(authToken, appName string) *talk.TalkServiceClient {
+func createSession_poll(authToken, appName string) *talk.TalkServiceClient {
 	var trans thrift.TTransport
 	var err error
 	trans, err = thrift.NewTHttpClient(con.LINE_HOST + con.POLL_PATH)
@@ -47,5 +47,5 @@ func Talk(token, appName string) *talk.TalkServiceClient {
 }
 
 func Poll(token, appName string) *talk.TalkServiceClient {
-	return createSession_pool(token, appName)
+	return createSession_poll(token, appName)
 }

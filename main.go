@@ -1,21 +1,20 @@
 package main
 
 import (
-	"fmt"
-
 	. "./line"
+	talk "./talkservice"
+	"fmt"
+	"strconv"
+	"time"
 )
 
-var client = NewClient("ESOapJ4bSgBsdu2lRPj6.P0E/6h9KZjye3300Y/LnHG.LyfM0smymGNxs+6K7WJhsmwSR+0Ilg9wvKy83EnW0Rs=", "MAC")
+var client = NewClient("", "MAC")
 
 func main() {
-	fmt.Println(client.Revision)
 	operation()
 }
 
 func operation() {
-	profile, _ := client.GetProfile()
-	fmt.Println(profile.DisplayName + ": login success")
 	for {
 		ops, err := client.FetchOperations()
 		for _, op := range ops {
@@ -23,11 +22,25 @@ func operation() {
 				if op.Revision > client.Revision {
 					client.Revision = op.Revision
 				}
-				fmt.Println(op)
+				bot(op)
 			}
 		}
 		if err != nil {
 			fmt.Println(err)
+		}
+	}
+}
+
+func bot(op *talk.Operation) {
+	switch op.Type {
+	case 26:
+		msg := op.Message
+		if msg.Text == ".speed" {
+			start := time.Now()
+			client.SendMessage(msg.To, "start")
+			end := time.Now()
+			t := strconv.FormatFloat(end.Sub(start).Seconds(), 'f', 8, 64)
+			client.SendMessage(msg.To, t)
 		}
 	}
 }

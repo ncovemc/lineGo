@@ -22,6 +22,7 @@ func NewClient(token, appName string) Client {
 	talk := login.Talk(token, appName)
 	poll := login.Poll(token, appName)
 	profile, err := talk.GetProfile(ctx, 0)
+  log.Println(profile.DisplayName + ": login success")
 	if err != nil {
 		log.Fatal(err)
 	}
