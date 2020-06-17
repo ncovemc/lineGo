@@ -25,7 +25,7 @@ func bot(op line.Operation) {
 	switch op.Type {
 	case 26:
 		msg := op.message
-		if msg.text == "test" {
+		if msg.Text == "test" {
 			cl.SendMessage(msg.to, "ok")
 		}
 	}
